@@ -1,0 +1,68 @@
+* Resolvendo CVRPs usando algoritmos geneticos
+
+** O problema
+  Eu resolverei nesse projeto instancias do /Capacitated Vehicle
+  Routing Problem/ (CVRP).
+
+  Nesse problema, temos um numero de depositos e de clientes. Cada
+  cliente tem uma demanda C por produtos. Caminhoes saem dos
+  depositos, entregam os produtos a alguns clientes e retornam ao
+  deposito. O objetivo do problema e minimizar o custo total de servir
+  todos os clientes. As informacoes ate aqui caracterizam um VRP.
+
+  No caso desse projeto, os caminhoes possuem uma capacidade maxima,
+  isto e, uma quantidade maxima do produto que podem levar. Essa
+  restricao a mais caracteriza o problema como um CVRP.
+
+  O custo pode ser interpretado como a soma das distancias
+  (euclidiana, nesse caso) entre os clientes que os caminhoes devem
+  percorrer.
+
+** Relacao entre algoritmos geneticos e aprendizagem computacional
+   De forma geral, temos que um problema de aprendizagem e o calculo
+   de um mapa f: X -> Y, no qual X e um conjunto de instancias e Y
+   suas respectivas classificacoes. No caso em que X e algo complexo,
+   e dificil, talvez impossivel, calcular f explicitamente.
+
+   No caso do CVRP, desejamos, dado uma instancia X, encontrar um
+   custo minimo (ou perto disso) para ela.
+
+   Contudo, X e algo muito estranho nesse caso. Essa falta de
+   estrutura dificulta o uso de classificadores 'comuns'. Logo, e mais
+   indicado usarmos algo que nao necessite de uma explicitacao do
+   espaco de busca, mas apenas de uma funcao que caracterize a
+   qualidade das solucoes. No nosso caso, essa funcao e a fitness.
+
+** Proposta
+   Usaremos algoritmos geneticos como base para a resolucao de
+   instancias do CVRP.
+
+   Tentaremos usar operadores vindos de diversas heuristicas: os
+   classicos para GAs, colonia de abelhas e formigas, entre outros (o
+   que o tempo permitir).
+
+** Instancias
+   Existem diversos repositorios de instancias de CVRP na
+   internet. Usaremos o primeiro conjunto dessa pagina:
+   http://neo.lcc.uma.es/vrp/vrp-instances/capacitated-vrp-instances/
+   ja que ele possui as melhores solucoes e poderemos comparar os
+   resultados dos nossos experimentos.
+
+** Implementacao
+   Algoritmos geneticos tendem a ser lentos. Logo, usaremos C++ para
+   que os experimentos nao demorem tanto para concluir.
+
+   Usando os diferentes operadores, representacoes e modos de
+   selecionar as populacoes, compararemos as solucoes obtidas com a
+   melhor.
+
+
+** Cronograma
+   | Atividade                | Tempo previsto             |
+   |--------------------------+----------------------------|
+   | Obtencao das instancias  | Ja concluido               |
+   | Implemtancao basica      | Ate o fim de setembro      |
+   | Melhora da implementacao | Ate o meio de novembro     |
+   | Experimentos             | Ate o fim de novembro      |
+   | Relatorio                | Durante o processo inteiro |
+   |--------------------------+----------------------------|

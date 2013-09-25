@@ -1,0 +1,79 @@
+Descrição
+=========
+
+Lucas Virgili
+5916931
+
+1 Resolvendo CVRPs usando algoritmos genéticos
+-----------------------------------------------
+
+1.1 O problema
+===============
+
+Eu resolverei neste projeto instâncias do /Capacitated Vehicle Routing
+Problem/ (CVRP).
+
+Neste problema, temos um número de depósitos e de clientes. Cada
+cliente tem uma demanda C por produtos. Caminhões saem dos depósitos,
+entregam os produtos a alguns clientes e retornam ao depósito. O
+objetivo do problema é minimizar o custo total de servir todos os
+clientes. As informações até aqui caracterizam um VRP.
+
+No caso deste projeto, os caminhões possuem uma capacidade máxima,
+isto é, uma quantidade máxima do produto que podem levar. Essa
+restrição caracteriza o problema como um CVRP.
+
+O custo pode ser interpretado como a soma das distâncias (euclidianas,
+neste caso) entre os clientes que os caminhões devem percorrer.
+
+1.2 Relação entre algoritmos genéticos e aprendizagem computacional
+====================================================================
+
+De forma geral, temos que um problema de aprendizagem é o cálculo de
+um mapa f: X -> Y, no qual X é um conjunto de instâncias e Y, suas
+respectivas classificações. No caso em que X é algo complexo, é
+difícil, talvez impossível, calcular f explicitamente.
+
+No caso do CVRP, desejamos, dado uma instância X, encontrar um custo
+mínimo (ou perto disso) para ela.
+
+Contudo, X é algo muito estranho neste caso. Essa falta de estrutura
+dificulta o uso de classificadores "comuns". Logo, é mais indicado
+usarmos algo que nao necessite de uma explicitação do espaço de busca,
+mas apenas de uma função que caracterize a qualidade das soluções. No
+nosso caso, essa função é a fitness.
+
+1.3 Proposta
+=============
+
+Usaremos algoritmos genéticos como base para a resolução de instâncias
+do CVRP.  Tentaremos usar operadores vindos de diversas heurísticas:
+os clássicos para GAs, colônia de abelhas e formigas, entre outros (o
+que o tempo permitir).
+
+1.4 Instâncias
+===============
+
+Existem diversos repositórios de instâncias de CVRP na
+internet. Usaremos o primeiro conjunto dessa página:
+[http://neo.lcc.uma.es/vrp/vrp-instances/capacitated-vrp-instances/],
+já que ele possui as melhores soluções e poderemos comparar os
+resultados dos nossos experimentos.
+
+1.5 Implementação
+==================
+
+Algoritmos genéticos tendem a ser lentos. Logo, usaremos C++ para que
+os experimentos não demorem tanto para concluir. Usando os diferentes
+operadores, representações e modos de selecionar as populações,
+compararemos as soluções obtidas com a melhor.
+
+1.6 Cronograma
+===============
+Atividade                  Tempo previsto
+--------------------------+----------------------------
+Obtenção das instâncias    Já concluído
+Implemetação básica        Até o fim de setembro
+Melhora da implementação   Até o meio de novembro
+Experimentos               Até o fim de novembro
+Relatório                  Durante o processo inteiro
