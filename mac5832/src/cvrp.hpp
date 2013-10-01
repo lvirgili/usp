@@ -7,9 +7,13 @@
 #include <sstream>
 #include <utility>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include <algorithm>
 #include <set>
 #define _USE_MATH_DEFINES
+
+using namespace std;
 
 struct customer {
      long x, y, demand;
@@ -26,27 +30,35 @@ struct customer {
 class cvrp {
 private:
      unsigned _capacity, _dimension;
-     std::vector<struct customer> _customers;
+     vector<struct customer> _customers;
      unsigned _depot;
-     std::vector<std::vector<unsigned>> _population;
+     vector<vector<unsigned>> _population;
 
-     std::vector<std::pair<long, long>> rel_xy();
-     std::vector<std::pair<double, unsigned>> polar_coords(std::vector<std::pair<long, long>>);
+     vector<pair<long, long>> rel_xy();
+     vector<pair<double, unsigned>> polar_coords(vector<pair<long, long>>);
 
-     void truckenize(std::vector<unsigned>&);
-     void untruckenize(std::vector<unsigned>&);
+     void truckenize(vector<unsigned>&);
+     void untruckenize(vector<unsigned>&);
 
      double dist(struct customer&, struct customer&);
-     double fitness(std::vector<unsigned>&);
+     double fitness(vector<unsigned>&);
+
+     void swap_genes(vector<unsigned>&, unsigned, unsigned);
+     pair<vector<unsigned>, vector<unsigned>> pmx(vector<unsigned>&, vector<unsigned>&);
+     vector<unsigned> random_swap(vector<unsigned>&);
+     vector<unsigned> reverse(vector<unsigned>&);
 
      void create_population();
 
-     bool validate_solution(std::vector<unsigned>&);
+     void evolve();
+
+     bool validate_solution(vector<unsigned>&);
 
 public:
-     cvrp(const std::string&);
+     cvrp(const string&);
      ~cvrp() {};
      void print_info();
+     double best();
 
      void solve();
 };

@@ -4,7 +4,7 @@
 int main() {
      srand(time(NULL));
      //cvrp c("../VRPs/small.vrp");
-     for (unsigned j = 0; j < 30; ++j) {
+     for (unsigned j = 0; j < 10) {
           cvrp c("../VRPs/A-n32-k5.vrp");
           double min, best = 10000;
           for (unsigned i = 0; i < 10; ++i) {
