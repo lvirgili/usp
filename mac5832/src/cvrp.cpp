@@ -261,17 +261,17 @@ void cvrp::evolve() {
      //sort(_population.begin(), _population.end(), [this](vector<unsigned> a, vector<unsigned> b) { return fitness(a) <= fitness(b); });
      vector<vector<unsigned>>::iterator it = max_element(_population.begin(), _population.end(), [this](vector<unsigned> a, vector<unsigned> b) { return fitness(a) > fitness(b); });
      vector<unsigned> mother = *it;
-      while (new_population.size() < _population.size()) {
-          // unsigned mother = rand() % (_population.size());
-          // unsigned father = rand() % (_population.size());
-          // pair<vector<unsigned>, vector<unsigned>> babies = pmx(_population[mother], _population[father]);
-          // new_population.push_back(babies.first);
-          // new_population.push_back(babies.second);
-//           unsigned mother = rand() % (_population.size() / 2);
-           //vector<unsigned> child = random_swap(mother);
-           vector<unsigned> child = reverse(mother);
-           new_population.push_back(child);
-      }
+     while (new_population.size() < _population.size()) {
+         // unsigned mother = rand() % (_population.size());
+         // unsigned father = rand() % (_population.size());
+         // pair<vector<unsigned>, vector<unsigned>> babies = pmx(_population[mother], _population[father]);
+         // new_population.push_back(babies.first);
+         // new_population.push_back(babies.second);
+         //           unsigned mother = rand() % (_population.size() / 2);
+         //vector<unsigned> child = random_swap(mother);
+         vector<unsigned> child = random_swap(mother);
+         new_population.push_back(child);
+     }
      _population = new_population;
 }
 
