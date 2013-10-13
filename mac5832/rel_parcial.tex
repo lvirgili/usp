@@ -1,0 +1,33 @@
+\def\linha#1{
+  \hbox to \hsize{
+    \vbox{\centering #1}}
+  \vspace{4mm}}
+
+\documentclass[a4 paper, 12pt]{article}
+
+\usepackage{anysize}
+\marginsize{3cm}{3cm}{2cm}{2cm}
+\usepackage[UKenglish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[psamsfonts]{amssymb}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{hyperref}
+\usepackage{minted}
+
+\usemintedstyle{tango}
+\newminted{cpp}{linenos, mathescape, frame=topline, numberblanklines=false}
+\newmint{cpp}{frame=single}
+
+\algsetup{indent=2em}
+
+
+\renewcommand{\theFancyVerbLine}{
+ \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
+\title{Assignment 1}
+\author{Lucas Virgili - 1245147}
+\date{}
