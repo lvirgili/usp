@@ -185,15 +185,143 @@ Os seguintes elementos s\~ao fundamentais para a linguagem:
 \section{Fase 2}
 \subsection{Tipos de dados}
 \subsubsection{Tipos primitivos}
+Os seguintes tipos de dados primitivos ser\~ao inclusos na linguagem:
+
+\begin{itemize}
+\item \textbf{Inteiros}: Como vimos na defini\c c\~ao de sequ\^encias
+  acima, estas s\~ao indexadas por inteiros positivos. Logo, \'e
+  natural que a linguagem ofere\c ca inteiros para o programador.
+\item \textbf{Reais}: O uso de n\'umeros n\~ao inteiros
+  tamb\'em \'e fundamental. Assim, a linguagem utilizar\'a ponto
+  flutuante para representar tais valores.
+\item \textbf{Booleanos}: Como vimos no exemplo acima, pretende-se que
+  as fun\c c\~oes de converg\^encia retornem um par (booleano, limite)
+  e, caso o valor booleano seja verdadeiro, limite \'e o valor para
+  qual a s\'erie ou sequ\^encia converge. Dessa forma, \'e
+  necess\'ario que haja o tipo booleano para armazenar os valores
+  verdadeiro ou falso.
+\end{itemize}
 
 \subsubsection{Tipos compostos}
-
+N\~ao parece necess\'ario oferecer nenhum tipo composto na linguagem.
 \subsection{Express\~oes}
+\subsubsection{Literais}
+Para denotarmos o valor dos tipos descritos acima, usaremos as nota\c
+c\~oes usuais: $1$ denota o inteiro de valor um e $1.0$ denota o valor
+real um.
+
+\subsection{Fun\c c\~oes}
+A linguagem oferecer\'a as fun\c c\~oes trigonom\'etricas usuais, como
+$\sin, \cos, \tan$, bem como logaritmos, exponencia\c c\~ao e ra\'iz
+quadrada.
+
+N\~ao s\'o, os operadores aritm\'eticos usuais, $+, -, /$ e $*$
+ser\~ao fornecidos para manipularmos inteiros e reais. Al\'em disso,
+como dito acima, s\'eries convergentes continuam convergentes quando
+multiplicadas por um n\'umero ou somadas a outra s\'erie
+convergente. Logo, os operadores $+$ e $-$ ser\~ao tamb\'em definidos
+sobre s\'eries e o operador $*$ ser\'a definido sobre um escalar e uma
+s\'erie.
+
+\subsection{Ordem de avalia\c c\~ao}
+A ordem de avalia\c c\~ao ser\'a a usual da matem\'atica: com maior
+preced\^encia, temos opera\c c\~oes delimitadas por par\^enteses,
+seguido de apli\c c\~ao de fun\c c\~oes, depois a multiplica\c c\~ao e
+divis\~ao com igual precend\^encia e, por fim, por soma e subtra\c
+c\~ao.
+
+Por exemplo a express\~ao
+\begin{equation}
+   1 + 5 * 2 \textrm{\textasciicircum} 2
+\end{equation}
+ser\'a avaliada como 21. Por sua vez,
+\begin{equation}
+  7 + 4 * 3
+\end{equation}
+\'e igual a 19. J\'a
+\begin{equation}
+  ( 7 + 4 ) * 3
+\end{equation}
+\'e avaliada como 33.
 
 \subsection{Comandos}
+\subsubsection{Declara\c c\~ao}
+Haver\'a tr\^es comandos de declara\c c\~ao: um para sequ\^encias,
+\textbf{seq}, um para vari\'aveis inteiras e um para vari\'aveis
+reais:
+\begin{verbatim}
+seq s; # declara uma sequencia s
+int i; # declara um inteiro a
+real pi; # declara um valor real pi
+\end{verbatim}
+\subsubsection{Atribui\c c\~ao}
+Atribui\c c\~ao ser\'a feita com o operador \textbf{=}. Contudo,
+quando declararmos uma sequ\^encia, precisamos identificar qual \'e a
+``inc\'ognita'':
+\begin{verbatim}
+real pi;
+pi = 3.14;
 
+seq s;
+s(n) = pi * (1 / n)
+\end{verbatim}
+
+\subsection{Estruturas de controle de fluxo}
+\subsubsection{Condicionais}
+A princ\'ipio, n\~ao vemos necessidade em incluir condicionais
+``usuais'' como if... then ... else na linguagem.
+
+\subsubsection{Repeti\c c\~ao}
+Dado que \'e bastante comum queremos calcular ``os primeiros 10
+termos da sequ\^encia'' ou ``os termos para $n$ valendo de $10$ a
+$20$'', a linguagem incluir\'a um comando ``take'', cujo uso est\'a
+exemplificado abaixo:
+\begin{verbatim}
+seq s;
+s(n) <- 1 / ( n ^ 2 )
+
+take(s, 1, 10); # Imprime os 10 primeiros termos se s
+take(s, 10, 20); # Imprime os termos para n de 10 a 20
+\end{verbatim}
+
+Incluimos o comando take como um comando de repeti\c c\~ao pois em uma
+linguagem como C, um while seria an\'alogo:
+\begin{minted}[linenos=true, frame=lines]{cpp}
+double s(double n) {
+    return 1 / pow(n, 2);
+}
+
+int main() {
+    // equivalente a take(s, 1, 10)
+    int i = 1;
+    while ( i <= 10 ) {
+        printf("%lf ", s(i));
+    }
+    printf("\n");
+    return 0;
+}
+\end{minted}
 \subsection{Vincula\c c\~ao}
+\subsubsection{Forma de vincula\c c\~ao}
+A linguagem s\'o ir\'a permitir associa\c c\~ao expl\'icita, como
+visto nos exemplos acima.
 
+\subsubsection{Tempo de vincula\c c\~ao}
+A vincula\c c\~ao ser\'a est\'atica, j\'a que n\~ao vemos necessidade
+em alterar a mesma durante a execu\c c\~ao do programa.
 \subsection{Sistema de tipos}
+A linguagem ter\'a sobrecarga independente do contexto, j\'a que o
+operador soma, por exemplo, pode ser tanto usado para somar valores
+num\'ericos como para somar s\'eries.
+
+Haver\'a coer\c c\~ao para tipos v\'alidos quando necess\'ario. Por
+exemplo, a fun\c c\~ao $\sin$ recebe um valor real. Se um inteiro for
+passado como par\^ametro, ele ser\'a promovido. Contudo, um erro
+ser\'a disparado caso somemos um inteiro a uma s\'erie, por exemplo.
+
+Por fim, o \'unico erro de tipos poss\'ivel ser\'a se declararmos uma
+vari\'avel num\'erica e depois tentarmos atribuir a ela uma
+sequ\^encia.
+
 
 \end{document}
