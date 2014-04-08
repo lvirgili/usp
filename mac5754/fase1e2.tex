@@ -1,0 +1,199 @@
+\documentclass[a4 paper, 12pt]{article}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{minted}
+\usepackage{anysize}
+\marginsize{3cm}{3cm}{2cm}{2cm}
+\usemintedstyle{tango}
+\newminted{cpp}{linenos, mathescape, frame=topline, numberblanklines=false}
+\newmint{cpp}{frame=single}
+\usepackage{algorithmic}
+\usepackage[brazilian]{algorithm}
+
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+\renewcommand{\algorithmicif}{\textbf{se}}
+\renewcommand{\algorithmicthen}{\textbf{então}}
+\renewcommand{\algorithmicelse}{\textbf{else}}
+\renewcommand{\algorithmicelsif}{\algorithmicelse\ \algorithmicif}
+\renewcommand{\algorithmicendif}{\algorithmicend\ \algorithmicif}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicforall}{\textbf{para todos}}
+\renewcommand{\algorithmicdo}{\textbf{faça}}
+\renewcommand{\algorithmicendfor}{\algorithmicend}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicendwhile}{\algorithmicend}
+\renewcommand{\algorithmicloop}{\textbf{loop}}
+\renewcommand{\algorithmicendloop}{\algorithmicend\ \algorithmicloop}
+\renewcommand{\algorithmicrepeat}{\textbf{repita}}
+\renewcommand{\algorithmicuntil}{\textbf{enquanto}}
+\renewcommand{\algorithmicprint}{\textbf{imprima}}
+\renewcommand{\algorithmicreturn}{\textbf{retorne}}
+\renewcommand{\algorithmictrue}{\textbf{verdadeiro}}
+\renewcommand{\algorithmicfalse}{\textbf{falso}}
+
+
+\renewcommand{\theFancyVerbLine}{
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
+\title{Projeto da Linguagem de Programa\c c\~ao}
+\author{Lucas Virgili}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Fase 1}
+\subsection{Dom\'inio}
+\subsubsection{Introdu\c c\~ao}
+H\'a aproximadamente 2400 anos, Zeno de Elea abalou as funda\c
+c\~oes da matem\'atica da \'epoca atrav\'es da proposi\c c\~ao de
+diversos paradoxos. Um deles \'e muito famoso:
+
+\begin{quotation}
+  Um corredor nunca pode terminar uma corrida, j\'a que para isso,
+  ele primeiro tem que andar metade do percurso, em seguida um quarto,
+  depois um oitavo, e assim por diante, \emph{ad infinitum}.
+\end{quotation}
+
+Ap\'os 2000 anos, matem\'aticos dos s\'eculos XII e XIII deram
+in\'icio \`a teoria de s\'eries infinitas. Nessa teoria, a no\c c\~ao
+usual de soma, v\'alida para conjuntos finitos, \'e expandida para
+cole\c c\~oes infinitas.
+
+Dessa forma, o ``paradoxo'' de Zeno foi selecionado, j\'a que, naquele
+contexto, a soma que representa as ``etapas'' que o corredor deve
+percorrer \'e conhecida
+\begin{equation}
+  \frac{1}{2} + \frac{1}{4} + \ldots + \frac{1}{2^n} + \ldots
+\end{equation}
+
+e seu resultado \'e $1$.
+
+\subsubsection{Descri\c c\~ao do dom\'inio}
+A teoria de s\'eries e sequ\^encias n\~ao tem seu uso limitado a
+mostrar como gregos mortos estavam errados; ela \'e extremamente
+usada. Por exemplo, em an\'alise, utiliza-se sequ\^encias de fun\c
+c\~oes para demonstrar os teoremas de converg\^encia mon\'otona de
+Lesbegue. Esse teorema \'e important\'issimo em probabilidade, por
+exemplo.
+
+Definimos sequ\^encias e s\'eries abaixo.
+
+\paragraph{Sequ\^encia:} Uma fun\c c\~ao $f$ cujo dom\'inio \'e o
+conjunto dos inteiros positivos $1, 2, 3, \ldots$ \'e uma sequ\^encia
+infinita. O valor $f(n)$ \'e o en\'esimo \emph{termo} da sequ\^encia.
+
+\paragraph{S\'erie:} Dada uma sequ\^encia, podemos gerar uma nova
+sequ\^encia somando termos sucessivos. Logo, se temos uma sequ\^encia
+\begin{equation}
+  a_1, a_2, \ldots, a_n, \ldots
+\end{equation}
+Podemos gerar as seguintes ``somas parciais'':
+\begin{equation}
+  s_1 = a_1, s_2 = a_1 + a_2,  s_3 = a_1 + a_2 + a_3
+\end{equation}
+e assim continuarmos at\'e a en\'esima soma parcial:
+\begin{equation}
+  s_n = a_1 + a_2 + a_3 + a_4 + \ldots + a_n = \sum_{i = 1}^{n}a_i
+\end{equation}
+A sequ\^encia ${s_n}$ das somas parciais \'e chamada de \emph{s\'erie
+  infinita} ou, simplesmente \emph{s\'erie}, e \'e denotada por
+\begin{equation}
+  a_1 + a_2 + a_3 + \ldots, \textrm{  ou  } \sum_{i = 1}^{\infty}a_i
+\end{equation}
+
+Informalmente, dizemos que uma sequ\^encia converge se existe uma
+quantidade $L$ para a qual a sequ\^encia se aproxima o quanto
+quisermos\footnote{Formalmente, se para qualquer $\epsilon > 0$,
+  existe um um n\'umero positivo $N$ tal que $|f(n) - L| < \epsilon$
+  para qualquer $n \geq N$.}. Uma s\'erie, ent\~ao, converge se sua
+sequ\^encia ${s_n}$ converge.
+
+\'E comum, enquanto estamos trabalhando com sequ\^encias ou s\'eries,
+escrevermos programas em uma linguagem como C para avaliar se uma
+sequ\^encia ou s\'erie converge.
+
+\subsection{Proposta da linguagem de programa\c c\~ao}
+Para este projeto, propomos desenvolver uma linguagem de programa\c
+c\~ao que permita a declara\c c\~ao de sequ\^encias e s\'eries, bem
+como analisar a converg\^encia das mesmas atrav\'es de m\'etodos
+conhecidos.
+
+Por exemplo, ser\'a poss\'ivel para o programador definir uma
+sequ\^encia e operar sobre elas:
+\begin{verbatim}
+seq s
+s(n) = 1 / n ^ 2
+s(3) = 0.125
+series(s, 3) = 0.875 ## calcula s_3
+sequence_converges(s, 0.000001)
+## -> (true, 0)
+## Se a sequencia converge com uma precisao de 10 ^ (-5)
+
+
+series_converges(s, 0.00001)
+## -> (true, 1)
+## Se a serie converge com uma "precisao" de 10 ^ (-5)
+\end{verbatim}
+\subsection{Elementos essencias \`a linguagem}
+Os seguintes elementos s\~ao fundamentais para a linguagem:
+\begin{enumerate}
+\item \textbf{Declara\c c\~oes}\\Nesta linguagem, as ``vari\'aveis''
+  ser\~ao as sequ\^encias. Como visto no exemplo acima, o programador
+  poder\'a declarar sequ\^encias utilizando a palavra reservada
+  \textbf{seq}.
+
+\item \textbf{Operadores}\\Sejam ${a_n}$ e ${b_n}$ duas sequ\^encias
+  convergentes. \'E f\'acil mostrar que a s\'erie
+  \begin{equation}
+    \sum_{n = 1}^{\infty}(\alpha a_n + \beta b_nE)
+  \end{equation}
+  tamb\'em converge e seu limite \'e dado por
+  \begin{equation}
+    \alpha\sum_{n=1}^{\infty}a_n + \beta\sum_{n=1}^{\infty}b_n
+  \end{equation}
+  Assim, podemos multiplicar s\'eries convergentes por constantes
+  num\'ericas e tamb\'em podemos somar e subtrair s\'eries
+  convergentes. Logo, a linguagem ir\'a fornecer os operadores soma
+  ($+$) e subtra\c c\~ao ($-$) entre s\'eries e o operador produto
+  ($*$) entre uma constante e uma s\'erie.
+
+\item \textbf{Fun\c c\~oes}\\A linguagem oferecer\'a ao programador as
+  seguintes fun\c c\~oes:
+  \begin{center}
+    \begin{table}[H]
+    \begin{tabular}{|l | l |}
+      \hline
+      Fun\c c\~ao & O que ela calcula \\
+      \hline
+      series(sequencia, n) & calcula a en\'esima soma parcial de sequencia \\
+      sequence\_converges(sequenca, precisao) & diz se sequ\^encia
+      converge com precis\~ao precisao \\
+      series\_converges(serie, precisao) & diz se a s\'erie converge
+      com precis\~ao precisao \\
+      \hline
+    \end{tabular}
+\end{table}
+  \end{center}
+\end{enumerate}
+
+
+
+\section{Fase 2}
+\subsection{Tipos de dados}
+\subsubsection{Tipos primitivos}
+
+\subsubsection{Tipos compostos}
+
+\subsection{Express\~oes}
+
+\subsection{Comandos}
+
+\subsection{Vincula\c c\~ao}
+
+\subsection{Sistema de tipos}
+
+\end{document}
