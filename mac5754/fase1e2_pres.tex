@@ -1,0 +1,356 @@
+\documentclass{beamer}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{minted}
+\usepackage{algorithmic}
+\usepackage[brazilian]{algorithm}
+\usepackage{amsthm}
+\usemintedstyle{tango}
+
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+\renewcommand{\algorithmicif}{\textbf{se}}
+\renewcommand{\algorithmicthen}{\textbf{então}}
+\renewcommand{\algorithmicelse}{\textbf{else}}
+\renewcommand{\algorithmicelsif}{\algorithmicelse\ \algorithmicif}
+\renewcommand{\algorithmicendif}{\algorithmicend\ \algorithmicif}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicforall}{\textbf{para todos}}
+\renewcommand{\algorithmicdo}{\textbf{faça}}
+\renewcommand{\algorithmicendfor}{\algorithmicend}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicendwhile}{\algorithmicend}
+\renewcommand{\algorithmicloop}{\textbf{loop}}
+\renewcommand{\algorithmicendloop}{\algorithmicend\ \algorithmicloop}
+\renewcommand{\algorithmicrepeat}{\textbf{repita}}
+\renewcommand{\algorithmicuntil}{\textbf{enquanto}}
+\renewcommand{\algorithmicprint}{\textbf{imprima}}
+\renewcommand{\algorithmicreturn}{\textbf{retorne}}
+\renewcommand{\algorithmictrue}{\textbf{verdadeiro}}
+\renewcommand{\algorithmicfalse}{\textbf{falso}}
+
+
+\renewcommand{\theFancyVerbLine}{
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
+\AtBeginSection{\frame{\sectionpage}}
+\newtranslation[to=brazilian]{Section}{Se\c c\~ao}
+
+\newtheorem{mydef}{Defini\c c\~ao}
+
+\title{Projeto da Linguagem de Programa\c c\~ao}
+\author{Lucas Virgili}
+\date{}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+\end{frame}
+
+\section{Fase 1}
+
+\begin{frame}[fragile]
+  \frametitle{\emph{A long time ago...}}
+  \begin{itemize}
+  \item Zeno de Elea, h\'a 2400 anos prop\^os o seguinte paradoxo:
+    \begin{quote}
+        Um corredor nunca pode terminar uma corrida, j\'a que para isso,
+        ele primeiro tem que andar metade do percurso, em seguida um quarto,
+        depois um oitavo, e assim por diante, \emph{ad infinitum}.
+    \end{quote}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{S\'eries}
+  \begin{itemize}
+  \item 2000 anos depois, matem\'aticos expandem a no\c c\~ao usual de
+    soma para cole\c c\~oes infinitas.
+  \item Informalmente, uma s\'erie \'e uma soma de termos de uma
+    sequ\^encia.
+  \item Com elas, o ``paradoxo'' de Zeno foi resolvido, j\'a que a
+    s\'erie que ele representa \'e simples:
+    \begin{equation}
+      \frac{1}{2} + \frac{1}{4} + \ldots + \frac{1}{2^n} + \ldots
+    \end{equation}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Dom\'inio}
+  \begin{itemize}
+  \item S\'eries e sequ\^encias, al\'em de mostrar como um grego morto
+    estava errado, s\~ao muito utilizadas em matem\'atica:
+    \begin{itemize}
+    \item s\'eries de pot\^encia;
+    \item fun\c c\~oes anal\'iticas;
+    \item teoremas de converg\^encia de s\'eries de fun\c c\~oes...
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Sequ\^encias}
+  \begin{mydef}
+    Uma fun\c c\~ao $f$ cujo dom\'inio \'e o conjunto dos inteiros
+    positivos $1, 2, 3, \ldots$ \'e uma sequ\^encia infinita. O valor
+    $f(n)$ \'e o en\'esimo \emph{termo} da sequ\^encia.
+  \end{mydef}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{S\'eries}
+  \begin{mydef}
+\small
+    Dada uma sequ\^encia, podemos gerar uma nova sequ\^encia somando
+    termos sucessivos. Logo, se temos uma sequ\^encia
+    \begin{equation}
+      a_1, a_2, \ldots, a_n, \ldots
+    \end{equation}
+    Podemos gerar as seguintes ``somas parciais'':
+    \begin{equation}
+      s_1 = a_1, s_2 = a_1 + a_2,  s_3 = a_1 + a_2 + a_3
+    \end{equation}
+    e assim continuarmos at\'e a en\'esima soma parcial:
+    \begin{equation}
+      s_n = a_1 + a_2 + a_3 + a_4 + \ldots + a_n = \sum_{i = 1}^{n}a_i
+    \end{equation}
+    A sequ\^encia ${s_n}$ das somas parciais \'e chamada de
+    \emph{s\'erie infinita} ou simplesmente \emph{s\'erie}, e \'e
+    denotada por
+    \begin{equation}
+      a_1 + a_2 + a_3 + \ldots, \textrm{  ou  } \sum_{i = 1}^{\infty}a_i
+    \end{equation}
+  \end{mydef}
+\end{frame}
+
+\normalsize
+\begin{frame}[fragile]
+  \frametitle{No\c c\~ao informal de converg\^encia}
+  \begin{itemize}
+  \item Dizemos que uma sequ\^encia converge se existe uma
+    quantidade $L$ para a qual a sequ\^encia se aproxima o quanto
+    quisermos.
+  \item Uma s\'erie, ent\~ao, converge se sua sequ\^encia ${s_n}$
+    converge.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{O problema!}
+  \begin{itemize}
+  \item Escrever programas para trabalhar com s\'eries e sequ\^encias:
+    \begin{itemize}
+    \item valor de termos e
+    \item converg\^encia.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Exemplo do que a linguagem pretende fazer}
+  \begin{center}
+\begin{verbatim}
+seq s;
+s(n) = 1 / n ^ 2;
+s(3) = 0.125;
+series(s, 3) = 0.875; ## calcula s_3
+sequence_converges(s, 0.000001);
+## -> (true, 0)
+## Se a sequencia converge com uma precisao de 10 ^ (-5)
+
+
+series_converges(s, 0.00001);
+## -> (true, 1)
+## Se a serie converge com uma "precisao" de 10 ^ (-5)
+\end{verbatim}
+
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Elementos essencias \`a linguagem}
+  \begin{itemize}
+  \item \textbf{Declara\c c\~oes}: sequ\^encias e literais num\'ericos;
+  \item \textbf{Operadores}: operadores num\'ericos usuais para a
+    defini\c c\~ao das sequ\^encias e, quando fizer sentido,
+    expans\~ao deles para s\'eries.
+  \item \textbf{Fun\c c\~oes}: a ferramenta b\'asica da
+    linguagem. Ser\~ao usadas para calcular termos e testar a
+    converg\^encia.
+  \end{itemize}
+\end{frame}
+
+
+\section{Fase 2}
+
+\begin{frame}[fragile]
+  \frametitle{Tipos}
+  \begin{itemize}
+  \item \textbf{Inteiros};
+  \item \textbf{Reais};
+  \item \textbf{Booleanos};
+  \item N\~ao haver\'a nenhum tipo composto.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Literais}
+  Nota\c c\~oes usuais:
+  \begin{itemize}
+  \item $1$ denota o inteiro de valor $1$;
+  \item $1.0$ denota o valor real $1$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Fun\c c\~oes}
+  \begin{itemize}
+  \item Fun\c c\~oes trigonom\'etricas usuais;
+  \item logaritmo natural (e, por consequ\^encia, qualquer outro);
+  \item potencia\c c\~ao; e
+  \item ra\'iz quadrada.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Operadores}
+  \begin{itemize}
+  \item Operadores aritm\'eticos usuais: $+, -, /$ e $*$ para inteiros
+    e reais.
+  \item Para s\'eries convergentes, seja $k$ um literal e ${s_n}$ uma
+    s\'erie. Ent\~ao temos os seguintes operadores:
+    \begin{itemize}
+    \item Operador $* : k \times {s_n}$;
+    \item Operador $+ : {s_n} \times {s_n}$
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Ordem de avalia\c c\~ao}
+  \begin{itemize}
+  \item Seria muito estranho uma linguagem totalmente orientada \`a
+    matem\'atica n\~ao ter a ordem de avalia\c c\~ao com as
+    preced\^encias usuais: par\^enteses, fun\c c\~oes, multiplica\c
+    c\~ao e divis\~ao com a mesma preced\^encia e, por fim, adi\c
+    c\~ao e subtra\c c\~ao.
+  \item Em caso de ambiguidade, a ordem ser\'a da esquerda para a direita.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Exemplos}
+  \begin{itemize}
+  \item
+    \begin{equation}
+      1 + 5 * 2 \textrm{\textasciicircum} 2
+    \end{equation}
+    ser\'a avaliada como $21$.
+  \item \begin{equation}
+      7 + 4 * 3
+    \end{equation}
+    \'e igual a $19$.
+  \item \begin{equation}
+      ( 7 + 4 ) * 3
+    \end{equation}
+    \'e avaliada como 33.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Comandos}
+  \begin{itemize}
+  \item Comandos de declara\c c\~ao:
+    \begin{itemize}
+    \item Para sequ\^encias:
+\begin{verbatim}
+seq s;
+\end{verbatim}
+    \item Para inteiros:
+\begin{verbatim}
+int i;
+\end{verbatim}
+    \item Para reais:
+\begin{verbatim}
+real pi;
+\end{verbatim}
+    \end{itemize}
+  \item Comandos de atribui\c c\~ao:
+    \begin{itemize}
+    \item Ser\'a usado o operador \textbf{=}, como esperado.
+    \item \'Unico diferen\c ca \'e na declara\c c\~ao de sequ\^encias,
+      na qual precisamos identificar qual \'e a vari\'avel indexadora:
+\begin{verbatim}
+real pi;
+pi = 3.1415; # Atribuicao usual
+
+seq s;
+s(x) = sin(x) / x; # Atribuicao de sequencias
+\end{verbatim}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Controle de fluxo}
+  \begin{itemize}
+  \item N\~ao haver\'a condicionais.
+  \item Repeti\c c\~ao: haver\'a um comando \emph{take}. Exemplo de
+    uso:
+\begin{verbatim}
+seq s;
+s(n) <- 1 / ( n ^ 2 )
+
+take(s, 1, 10); # Imprime os 10 primeiros termos se s
+take(s, 10, 20); # Imprime os termos para n de 10 a 20
+\end{verbatim}
+  \item Inclu\'imos o \emph{take} como comando de repeti\c c\~ao pois
+    ele \'e equivalente a um \emph{while}, por exemplo.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Forma e tempo de vincula\c c\~ao}
+  \begin{itemize}
+  \item Associa\c c\~ao expl\'icita, apenas;
+  \item Est\'atica
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Sistema de tipos}
+  \begin{itemize}
+  \item Sobrecarga independente do contexto (soma, por exemplo);
+  \item Coer\c c\~ao de tipos quando necess\'ario. Por exemplo, para
+    indexarmos uma sequ\^encia precisamos usar um inteiro; e
+  \item \'Unico erro poss\'ivel de tipos \'e tentar atribuir \`a uma
+    vari\'avel num\'erica uma sequ\^encia ou vice-versa.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Se der tempo...}
+  \begin{itemize}
+  \item Atribui\c c\~ao condicional de sequ\^encias:
+\[
+s(n) =
+\begin{cases}
+  \frac{1}{x ^ 2}, & \text{se $x$ \'e par}\\
+  \frac{1}{x}, & \text{caso contr\'ario}
+\end{cases}
+\]
+\item Algo como \emph{list comprehensions} de Haskell:
+\begin{minted}[linenos=true, frame=lines]{haskell}
+[x*2 | x <- [1..10]]
+[ x | x <- [50..100], x `mod` 7 == 3]
+\end{minted}
+Achamos que seria um jeito conveniente para definir algumas sequ\^encias.
+  \end{itemize}
+\end{frame}
+
+
+\end{document}
