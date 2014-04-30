@@ -1,0 +1,192 @@
+\documentclass[a4 paper, 12pt]{article}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{minted}
+\usepackage{anysize}
+\marginsize{3cm}{3cm}{2cm}{2cm}
+\usemintedstyle{tango}
+\newminted{cpp}{linenos, mathescape, frame=topline, numberblanklines=false}
+\newmint{cpp}{frame=single}
+\usepackage{algorithmic}
+\usepackage[brazilian]{algorithm}
+
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+\renewcommand{\algorithmicif}{\textbf{se}}
+\renewcommand{\algorithmicthen}{\textbf{então}}
+\renewcommand{\algorithmicelse}{\textbf{else}}
+\renewcommand{\algorithmicelsif}{\algorithmicelse\ \algorithmicif}
+\renewcommand{\algorithmicendif}{\algorithmicend\ \algorithmicif}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicforall}{\textbf{para todos}}
+\renewcommand{\algorithmicdo}{\textbf{faça}}
+\renewcommand{\algorithmicendfor}{\algorithmicend}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicendwhile}{\algorithmicend}
+\renewcommand{\algorithmicloop}{\textbf{loop}}
+\renewcommand{\algorithmicendloop}{\algorithmicend\ \algorithmicloop}
+\renewcommand{\algorithmicrepeat}{\textbf{repita}}
+\renewcommand{\algorithmicuntil}{\textbf{enquanto}}
+\renewcommand{\algorithmicprint}{\textbf{imprima}}
+\renewcommand{\algorithmicreturn}{\textbf{retorne}}
+\renewcommand{\algorithmictrue}{\textbf{verdadeiro}}
+\renewcommand{\algorithmicfalse}{\textbf{falso}}
+
+
+\renewcommand{\theFancyVerbLine}{
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
+\title{Projeto da Linguagem de Programa\c c\~ao}
+\author{Lucas Virgili}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Fase 3}
+\subsection{Sintaxe}
+
+Usaremos a nota\c c\~ao EBNF (\emph{Extended Backus-Naur Form}) para
+definir a sintaxe da nossa linguagem de programa\c c\~ao. A sintaxe de
+uma linguagem de programa\c c\~ao define as constru\c c\~oes que s\~ao
+corretas dentro da linguagem.
+
+\subsection{Palavras reservadas}
+
+As seguintes palavras s\~ao reservadas dentro da nossa linguagem:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Palavra             & Significado                                                         \\ \hline
+seq                 & Usado para declarar vari\'aveis do tipo sequ\^encia \\ \hline
+int                 & Usado para declarar vari\'aveis do tipo inteiro                     \\ \hline
+real                & Usado para declarar vari\'aveis do tipo real                        \\ \hline
+take                & Retorna elementos de uma sequ\^encia                \\ \hline
+series              & Calcula a soma parcial de uma sequ\^encia           \\ \hline
+sequence\_converges & Checa se uma sequ\^encia converge                   \\ \hline
+series\_converges   & Checa se uma s\'erie converge                   \\ \hline
+$\sin$              & Fun\c c\~ao seno                                                    \\ \hline
+$\cos$              & Fun\c c\~ao cosseno                                                 \\ \hline
+$\tan$              & Fun\c c\~ao tangente                                                \\ \hline
+$\log$              & Fun\c c\~ao logaritmo com base $e$                                  \\ \hline
+$\exp$              & Fun\c c\~ao exponencial                                             \\ \hline
+sqrt                & Fun\c c\~ao ra\'iz quadrada                                         \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Regras l\'exicas}
+
+Para definirmos as palavras v\'alidas na nossa linguagem, precisamos
+definir o conjunto de caracteres que pertencem ao alfabeto da mesma,
+os quais s\~ao combinados para formar as palavras.
+
+Na nossa linguagem, as regras s\~ao as seguintes:
+\begin{itemize}
+\item Caracteres:
+\begin{verbatim}
+<letra> = "a" | "A" | "b" | "B" | "c" | "C" | "d" | "D" | "e" | "E" |
+"f" | "F" | "g" | "G" | "h" | "H" | "i" | "I" | "j" | "J" | "k" | "K"
+| "l" | "L" | "m" | "M" | "n" | "N" | "o" | "O" | "p" | "P" | "q" |
+"Q" | "r" | "R" | "s" | "S" | "t" | "T" | "u" | "U" | "v" | "V" | "w"
+| "W" | "x" | "X" | "y" | "Y" | "z" | "Z";
+
+<char> = <letra> | "_";
+\end{verbatim}
+
+\item N\'umeros:
+Primeiro precisamos definir os d\'igitos:
+\begin{verbatim}
+<dig> = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+\end{verbatim}
+
+Agora, os tipos num\'ericos:
+
+\begin{verbatim}
+<int> = [ "-" ], dig, { dig };
+<real> = [ "-" ], <int>, [ "."{ dig } ];
+<numero> = <int> | <real>;
+\end{verbatim}
+
+\item Vari\'aveis:
+Os identificadores de vari\'aveis podem conter n\'umeros ou
+caracteres, mas n\~ao poder\~ao come\c car com n\'umeros. Logo,
+\begin{verbatim}
+<id> = <char>{ <char> | <dig> };
+\end{verbatim}
+
+\item Operadores:
+Os operadores aritm\'eticos s\~ao os \'unicos presentes:
+\begin{verbatim}
+<op> = + | - | * | /;
+\end{verbatim}
+
+\item Literais:
+Os literais num\'ericos j\'a foram definidos, basta un\'i-los com os
+identificadores:
+\begin{verbatim}
+<lit> = <int> | <real> | <id>;
+\end{verbatim}
+\end{itemize}
+
+\subsection{Regras sint\'aticas}
+As regras sint\'aticas da nossa linguagem est\~ao definidas e
+comentadas em EBNF abaixo:
+\begin{verbatim}
+(* Definicao da linguagem*)
+
+(* Declaracoes. Tipos possiveis sao int, real ou seq *)
+<tipo> = <int> | <real> | <seq>;
+<seq> = <id> '(' <char> ')' = <expressao>;
+<declaracoes> = <tipo> <identificador>;
+
+(* Funcoes builtin*)
+<func> = ( sin | cos | tan | log | exp | sqrt ) '(' <expressao> ')';
+
+(* Definicao de uma expressao *)
+<expressao> = ( <expressao> + <termo> ) |
+              ( <expressao> - <termo> ) |
+              ( <termo> );
+
+<termo> = ( <termo> * <fator> ) |
+          ( <termo> / <fator> ) |
+          ( <fator> );
+
+<fator> = <expressao> | <func> | <numero>;
+
+(* take *)
+<take> = take '('<id> , <int> ')';
+
+(* sequence e series *)
+<sequence> = <id> '(' <integer> ')'
+<series> = series '(' <id> , <int>  ')';
+
+(* Operadores de Convergencia *)
+<seq_conv> = sequence_converges '(' <id>, <real> ')';
+<series_conv> = series_converges '(' <id>, <real> ')';
+\end{verbatim}
+
+\subsection{Exemplo de programa}
+Como j\'a hav\'iamos exemplificado na fase 1, um programa v\'alido na
+nossa linguagem ser\'a algo como:
+\begin{verbatim}
+seq s;
+s(n) = 1 / n ^ 2;
+sequence(s, 3) = 0.125;
+series(s, 3) = 0.875 ## calcula s_3;
+sequence_converges(s, 0.000001);
+
+series_converges(s, 0.00001)
+\end{verbatim}
+
+\subsection{S\'imbolos terminais}
+Os s\'imbolos terminais aceitos j\'a foram mencionados na descri\c
+c\~ao acima: literais, caracteres, operadores, fun\c c\~oes e
+identificadores.
+
+
+\end{document}
