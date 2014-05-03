@@ -8,9 +8,9 @@
 \usemintedstyle{tango}
 \newminted{cpp}{linenos, mathescape, frame=topline, numberblanklines=false}
 \newmint{cpp}{frame=single}
+\usepackage{amsfonts}
 \usepackage{algorithmic}
 \usepackage[brazilian]{algorithm}
-
 \renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
 \renewcommand{\algorithmicensure}{\textbf{Saída:}}
 \renewcommand{\algorithmicend}{\textbf{fim}}
@@ -45,6 +45,7 @@
 \begin{document}
 \maketitle
 \tableofcontents
+\newpage
 \section{Fase 3}
 \subsection{Sintaxe}
 
@@ -55,7 +56,8 @@ corretas dentro da linguagem.
 
 \subsection{Palavras reservadas}
 
-As seguintes palavras s\~ao reservadas dentro da nossa linguagem:
+As palavras s\~ao reservadas dentro da nossa linguagem est\~ao
+definidas na tabela \ref{tab1}.
 
 \begin{table}[h]
 \begin{center}
@@ -65,6 +67,7 @@ Palavra             & Significado                                               
 seq                 & Usado para declarar vari\'aveis do tipo sequ\^encia \\ \hline
 int                 & Usado para declarar vari\'aveis do tipo inteiro                     \\ \hline
 real                & Usado para declarar vari\'aveis do tipo real                        \\ \hline
+sequence            & Calcula o en\'esimo termo de uma sequ\^encia           \\ \hline
 take                & Retorna elementos de uma sequ\^encia                \\ \hline
 series              & Calcula a soma parcial de uma sequ\^encia           \\ \hline
 sequence\_converges & Checa se uma sequ\^encia converge                   \\ \hline
@@ -76,6 +79,8 @@ $\log$              & Fun\c c\~ao logaritmo com base $e$                        
 $\exp$              & Fun\c c\~ao exponencial                                             \\ \hline
 sqrt                & Fun\c c\~ao ra\'iz quadrada                                         \\ \hline
 \end{tabular}
+\caption{Palavras reservadas da linguagem}
+\label{tab1}
 \end{center}
 \end{table}
 
@@ -102,12 +107,13 @@ Na nossa linguagem, as regras s\~ao as seguintes:
 Primeiro precisamos definir os d\'igitos:
 \begin{verbatim}
 <dig> = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+<dig_sem_zero> = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 \end{verbatim}
 
 Agora, os tipos num\'ericos:
 
 \begin{verbatim}
-<int> = [ "-" ], dig, { dig };
+<int> = [ "-" ], <dig_sem_zero>, { <dig> };
 <real> = [ "-" ], <int>, [ "."{ dig } ];
 <numero> = <int> | <real>;
 \end{verbatim}
@@ -137,15 +143,37 @@ identificadores:
 As regras sint\'aticas da nossa linguagem est\~ao definidas e
 comentadas em EBNF abaixo:
 \begin{verbatim}
-(* Definicao da linguagem*)
+(* Definicao da linguagem *)
+
+(* Definicao de um programa *)
+<prog> = <seq_expressoes>
+<seq_expressoes> = <expressao> | <seq_expressoes>;
+
+(* Comandos *)
 
 (* Declaracoes. Tipos possiveis sao int, real ou seq *)
-<tipo> = <int> | <real> | <seq>;
-<seq> = <id> '(' <char> ')' = <expressao>;
-<declaracoes> = <tipo> <identificador>;
+<tipo> = 'int' | 'real ' | 'seq';
+<declaracoes> = <tipo> <id>;
 
 (* Funcoes builtin*)
 <func> = ( sin | cos | tan | log | exp | sqrt ) '(' <expressao> ')';
+
+(* take *)
+<take> = take '('<id> , <int> ')';
+
+(* sequence e series *)
+<sequence> = sequence '(' <id>, <int> ')';
+<series> = series '(' <id> , <int> ')';
+
+(* Operadores de Convergencia *)
+<seq_conv> = sequence_converges '(' <id>, <real> ')';
+<series_conv> = series_converges '(' <id>, <real> ')';
+
+(* Atribuicoes *)
+<atr> = <id> = <expressao>;
+<atr> = <id> '(' <letra> ')' '=' <expressao>;
+
+<cmd> = <take> | <sequence> | <series> | <seq_conv> | <series_conv>;
 
 (* Definicao de uma expressao *)
 <expressao> = ( <expressao> + <termo> ) |
@@ -156,18 +184,8 @@ comentadas em EBNF abaixo:
           ( <termo> / <fator> ) |
           ( <fator> );
 
-<fator> = <expressao> | <func> | <numero>;
+<fator> = <id> | <cmd> | <func> | <numero> | <expressao>;
 
-(* take *)
-<take> = take '('<id> , <int> ')';
-
-(* sequence e series *)
-<sequence> = <id> '(' <integer> ')'
-<series> = series '(' <id> , <int>  ')';
-
-(* Operadores de Convergencia *)
-<seq_conv> = sequence_converges '(' <id>, <real> ')';
-<series_conv> = series_converges '(' <id>, <real> ')';
 \end{verbatim}
 
 \subsection{Exemplo de programa}
@@ -175,11 +193,12 @@ Como j\'a hav\'iamos exemplificado na fase 1, um programa v\'alido na
 nossa linguagem ser\'a algo como:
 \begin{verbatim}
 seq s;
-s(n) = 1 / n ^ 2;
-sequence(s, 3) = 0.125;
-series(s, 3) = 0.875 ## calcula s_3;
+real pi;
+pi = 3.1415;
+s(n) = pi / n ^ 2;
+sequence(s, 3);
+series(s, 3);
 sequence_converges(s, 0.000001);
-
 series_converges(s, 0.00001)
 \end{verbatim}
 
@@ -188,5 +207,110 @@ Os s\'imbolos terminais aceitos j\'a foram mencionados na descri\c
 c\~ao acima: literais, caracteres, operadores, fun\c c\~oes e
 identificadores.
 
+\section{Sem\^antica}
+Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
+\'e, o significado das express\~oes da nossa linguagem.
+
+\subsection{Dom\'inios sem\^anticos}
+\begin{description}
+\item[Estados]\hfill
+  \begin{itemize}
+  \item $\Sigma = \{\sigma, \sigma '\}$
+  \end{itemize}
+\item[N\'umeros]\hfill
+  \begin{itemize}
+  \item Inteiros = $\mathbb{Z}$
+  \item Reais = $\mathbb{R}$
+  \end{itemize}
+\item[Valores]\hfill
+  \begin{itemize}
+  \item $Valores = Inteiros \cup Reais$
+  \end{itemize}
+\item[Fun\c c\~oes]\hfill
+  \begin{itemize}
+  \item $F = \{\sin, \cos, \tan, \log, \exp,$ sqrt$\}$
+  \end{itemize}
+\item[Identificadores]\hfill
+  \begin{itemize}
+  \item $id = \{X, Y, Z, \ldots\}$
+  \end{itemize}
+\item[Express\~oes]\hfill
+  \begin{itemize}
+  \item $exp = \{a_0, a_1, a_2, \ldots\}$
+  \end{itemize}
+\item[Comandos]\hfill
+  \begin{itemize}
+  \item $cmd = \{=, sequence, series, take, sequence\_converges,
+    series\_converges\}$
+  \end{itemize}
+\end{description}
+
+\subsection{Fun\c c\~oes sem\^anticas}
+\begin{description}
+\item[Express\~oes]\hfill
+  \begin{itemize}
+  \item $E: exp \to (\Sigma \to Valores)$
+  \end{itemize}
+\item[Comandos]\hfill
+  \begin{itemize}
+  \item $C: cmd \to (\Sigma \to \Sigma)$
+  \end{itemize}
+\item[Sequ\^encias]\hfill
+  \begin{itemize}
+  \item $S: id \to (\Sigma \to \Sigma)$
+  \end{itemize}
+\end{description}
+
+\subsection{Equa\c c\~oes sem\^anticas}
+\begin{description}
+\item[Express\~oes aritm\'eticas]\hfill
+  \begin{itemize}
+  \item Seja $n$ um n\'umero:\\
+    $E[[n]] = \{(\sigma, n)\ |\ \sigma \in \Sigma\}$
+  \item Seja $x$ um identificador:\\
+    $E[[x]] = \{(\sigma, \sigma (x))\ |\ \sigma \in \Sigma\}$
+  \item Seja $f$ uma fun\c c\~ao e $e$ uma express\~ao:\\
+    $E[[f]] = \{(\sigma, \sigma (f(e)))\ |\ \sigma \in \Sigma\}$
+  \item Adi\c c\~ao:\\
+    $E[[a_0 + a_1]] = \{(\sigma, (n_0 + n_1))\ |\ (\sigma, n_0) \in
+    E[[n_0]]\ \wedge\ (\sigma, n_1) \in E[[n_1]]\}$
+  \item Subtra\c c\~ao:\\
+    $E[[a_0 - a_1]] = \{(\sigma, (n_0- n_1))\ |\ (\sigma, n_0) \in
+    E[[n_0]]\ \wedge\ (\sigma, n_1) \in E[[n_1]]\}$
+  \item Multiplica\c c\~ao:\\
+    $E[[a_0 * a_1]] = \{(\sigma, (n_0 * n_1))\ |\ (\sigma, n_0) \in
+    E[[n_0]]\ \wedge\ (\sigma, n_1) \in E[[n_1]]\}$
+  \item Divis\~ao:\\
+    $E[[a_0 / a_1]] = \{(\sigma, (n_0 / n_1))\ |\ (\sigma, n_0) \in
+    E[[n_0]]\ \wedge\ (\sigma, n_1) \in E[[n_1]]\}$
+  \end{itemize}
+\item[Comandos]\hfill
+  \begin{itemize}
+  \item Atribui\c c\~ao:
+    \begin{itemize}
+    \item Atribui\c c\~ao de n\'umeros:\\
+      $C[[X = a]] = \{(\sigma, \sigma[n / X])\ |\ \sigma \in \Sigma\
+      \wedge\ n = E[[a]]\sigma\}$
+
+    \item Atribui\c c\~ao de sequ\^encias:\\
+      Seja $S$ uma sequ\^encia j\'a declarada. Ent\~ao:\\
+      $C[[S(X) = E]] = \{(\sigma, \sigma[n / S]\ |\ \sigma \in \Sigma\
+      \wedge\ n = E[[X]]\sigma)$
+    \end{itemize}
+  \item Composi\c c\~ao:\\
+    $C[[c_0;\ c_1]] = C[[c_1]]\ \circ\ C[[c_0]]$
+  \item Aplica\c c\~ao:\\
+    Depois de declararmos e atribuirmos uma sequ\^encia $S$, n\'os usamos
+    o comando \emph{sequence} para ``avaliar a sequ\^encia'':\\
+    $sequence(S, expressao(n)) = S(n)$\\
+
+    Logo, o comando \emph{sequence} simplesmente imprime na tela o
+    termo da sequ\^encia correspondente ao resultado da express\~ao.
+
+    \emph{series}, \emph{take} e os testes de converg\^encia tamb\'em
+    s\'o imprimem seus resultados na tela.
+  \end{itemize}
+
+\end{description}
 
 \end{document}
