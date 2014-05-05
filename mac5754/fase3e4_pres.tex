@@ -1,64 +1,39 @@
-\documentclass[a4 paper, 12pt]{article}
+\documentclass{beamer}
 \usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{minted}
-\usepackage{anysize}
-\marginsize{3cm}{3cm}{2cm}{2cm}
-\usemintedstyle{tango}
-\newminted{cpp}{linenos, mathescape, frame=topline, numberblanklines=false}
-\newmint{cpp}{frame=single}
 \usepackage{amsfonts}
-\usepackage{algorithmic}
-\usepackage[brazilian]{algorithm}
-\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
-\renewcommand{\algorithmicensure}{\textbf{Saída:}}
-\renewcommand{\algorithmicend}{\textbf{fim}}
-\renewcommand{\algorithmicif}{\textbf{se}}
-\renewcommand{\algorithmicthen}{\textbf{então}}
-\renewcommand{\algorithmicelse}{\textbf{else}}
-\renewcommand{\algorithmicelsif}{\algorithmicelse\ \algorithmicif}
-\renewcommand{\algorithmicendif}{\algorithmicend\ \algorithmicif}
-\renewcommand{\algorithmicfor}{\textbf{para}}
-\renewcommand{\algorithmicforall}{\textbf{para todos}}
-\renewcommand{\algorithmicdo}{\textbf{faça}}
-\renewcommand{\algorithmicendfor}{\algorithmicend}
-\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
-\renewcommand{\algorithmicendwhile}{\algorithmicend}
-\renewcommand{\algorithmicloop}{\textbf{loop}}
-\renewcommand{\algorithmicendloop}{\algorithmicend\ \algorithmicloop}
-\renewcommand{\algorithmicrepeat}{\textbf{repita}}
-\renewcommand{\algorithmicuntil}{\textbf{enquanto}}
-\renewcommand{\algorithmicprint}{\textbf{imprima}}
-\renewcommand{\algorithmicreturn}{\textbf{retorne}}
-\renewcommand{\algorithmictrue}{\textbf{verdadeiro}}
-\renewcommand{\algorithmicfalse}{\textbf{falso}}
+
+\AtBeginSection{\frame{\sectionpage}}
+\newtranslation[to=brazilian]{Section}{Se\c c\~ao}
+
+\newtheorem{mydef}{Defini\c c\~ao}
 
 
-\renewcommand{\theFancyVerbLine}{
-  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
-
-\title{Projeto da Linguagem de Programa\c c\~ao}
+\title{Projeto da Linguagem de Programa\c c\~ao II}
 \author{Lucas Virgili}
 \date{}
 
 \begin{document}
-\maketitle
-\tableofcontents
-\newpage
+
+\begin{frame}[fragile]
+  \titlepage
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Relembrando}
+  \begin{itemize}
+  \item O objetivo da linguagem \'e facilitar o c\'alculo de opera\c
+    c\~oes comuns quando trabalhamos com sequ\^encias e s\'eries, tais
+    como calcular termos e limites.
+  \end{itemize}
+\end{frame}
+
 \section{Fase 3}
-\subsection{Sintaxe}
 
-Usaremos a nota\c c\~ao EBNF (\emph{Extended Backus-Naur Form}) para
-definir a sintaxe da nossa linguagem de programa\c c\~ao. A sintaxe de
-uma linguagem de programa\c c\~ao define as constru\c c\~oes que s\~ao
-corretas dentro da linguagem.
-
-\subsection{Palavras reservadas}
-
-As palavras que s\~ao reservadas dentro da nossa linguagem est\~ao
-definidas na tabela \ref{tab1}.
-
+\begin{frame}[fragile]
+  \frametitle{Palavras reservadas}
+{\small
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|}
@@ -84,69 +59,43 @@ $\log$              & Fun\c c\~ao logaritmo com base $e$                        
 $\exp$              & Fun\c c\~ao exponencial                                             \\ \hline
 sqrt                & Fun\c c\~ao ra\'iz quadrada                                         \\ \hline
 \end{tabular}
-\caption{Palavras reservadas da linguagem}
-\label{tab1}
 \end{center}
 \end{table}
+}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Regras l\'exicas}
 
-\subsection{Regras l\'exicas}
-
-Para definirmos as palavras v\'alidas na nossa linguagem, precisamos
-definir o conjunto de caracteres que pertencem ao alfabeto da mesma,
-os quais s\~ao combinados para formar as palavras.
-
-Na nossa linguagem, as regras s\~ao as seguintes:
 \begin{itemize}
 \item Caracteres:
 \begin{verbatim}
-<letra> = "a" | "A" | "b" | "B" | "c" | "C" | "d" | "D" | "e" | "E" |
-"f" | "F" | "g" | "G" | "h" | "H" | "i" | "I" | "j" | "J" | "k" | "K"
-| "l" | "L" | "m" | "M" | "n" | "N" | "o" | "O" | "p" | "P" | "q" |
-"Q" | "r" | "R" | "s" | "S" | "t" | "T" | "u" | "U" | "v" | "V" | "w"
+<letra> = "a" | "A" | "b" | "B" | "c" | "C" | ...
 | "W" | "x" | "X" | "y" | "Y" | "z" | "Z";
-
 <char> = <letra> | "_";
 \end{verbatim}
-
 \item N\'umeros:
-Primeiro precisamos definir os d\'igitos:
 \begin{verbatim}
 <dig> = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 <dig_sem_zero> = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-\end{verbatim}
-
-Agora, os tipos num\'ericos:
-
-\begin{verbatim}
 <int> = [ "-" ], <dig_sem_zero>, { <dig> };
 <real> = [ "-" ], <int>, [ "."{ dig } ];
 <numero> = <int> | <real>;
 \end{verbatim}
 
 \item Vari\'aveis:
-Os identificadores de vari\'aveis podem conter n\'umeros ou
-caracteres, mas n\~ao poder\~ao come\c car com n\'umeros. Logo,
 \begin{verbatim}
 <id> = <char>{ <char> | <dig> };
 \end{verbatim}
 
-\item Operadores:
-Os operadores aritm\'eticos s\~ao os \'unicos presentes:
-\begin{verbatim}
-<op> = + | - | * | /;
-\end{verbatim}
-
 \item Literais:
-Os literais num\'ericos j\'a foram definidos, basta un\'i-los com os
-identificadores:
 \begin{verbatim}
-<lit> = <int> | <real> | <id>;
+<lit> = <int> | <real>;
 \end{verbatim}
 \end{itemize}
+\end{frame}
 
-\subsection{Regras sint\'aticas}
-As regras sint\'aticas da nossa linguagem est\~ao definidas e
-comentadas em EBNF abaixo:
+\begin{frame}[fragile]
+\frametitle{Regras sint\'aticas I}
 \begin{verbatim}
 (* Definicao da linguagem *)
 
@@ -159,14 +108,16 @@ comentadas em EBNF abaixo:
 <seq_expressoes> = <expressao> | <seq_expressoes>;
 
 (* Comandos *)
-
 (* Declaracoes. Tipos possiveis sao int e real *)
 <tipo> = `int' | `real';
 <declaracoes> = {<tipo> <id>; | <sequence>};
-
-(* Sequencias *)
 <sequence> = (`sequence' <id> = <seq_expressoes>)
+\end{verbatim}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Regras sint\'aticas II}
+\begin{verbatim}
 (* Funcoes builtin *)
 <func> = ( sin | cos | tan | log | exp | sqrt ) `(' <expressao> `)';
 
@@ -179,11 +130,17 @@ comentadas em EBNF abaixo:
 (* Operadores de Convergencia *)
 <seq_conv> = sequence_converges `(' <id>, <real> `)';
 <series_conv> = series_converges `(' <id>, <real> `)';
+\end{verbatim}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Regras sint\'aticas III}
+\begin{verbatim}
 (* Atribuicoes *)
 <atr> = (<id> = <expressao>);
 
-<cmd> = <atr> | <take> | <series> | <seq_conv> | <series_conv>;
+<cmd> = <atr> | <take> | <series>
+        | <seq_conv> | <series_conv>;
 
 (* Definicao de uma expressao *)
 <expressao> = ( <expressao> + <termo> ) |
@@ -195,19 +152,18 @@ comentadas em EBNF abaixo:
           ( <fator> );
 
 <fator> = <id> | <cmd> | <func> | <numero> | <expressao>;
-
 \end{verbatim}
+\end{frame}
 
-\subsection{Exemplo de programa}
-Um programa v\'alido na
-nossa linguagem ser\'a algo como:
+\begin{frame}[fragile]
+\frametitle{Exemplo de programa}
 \begin{verbatim}
 program X is
 begin
     declarations are
     begin
             real pi;
-            sequence s(n) is
+            sequence s is
             begin
                 pi / n ^ 2;
             end
@@ -219,17 +175,11 @@ begin
     series_converges(s, 0.00001)
 end
 \end{verbatim}
-
-\subsection{S\'imbolos terminais}
-Os s\'imbolos terminais aceitos j\'a foram mencionados na descri\c
-c\~ao acima: literais, caracteres, operadores, fun\c c\~oes e
-identificadores.
+\end{frame}
 
 \section{Fase 4}
-Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
-\'e, o significado das express\~oes da nossa linguagem.
-
-\subsection{Dom\'inios sem\^anticos}
+\begin{frame}[fragile]
+\frametitle{Dom\'inios sem\^anticos}
 \begin{description}
 \item[Estados]\hfill
   \begin{itemize}
@@ -257,8 +207,10 @@ Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
   \item $exp = \{a_0, a_1, a_2, \ldots\}$
   \end{itemize}
 \end{description}
+\end{frame}
 
-\subsection{Fun\c c\~oes sem\^anticas}
+\begin{frame}[fragile]
+\frametitle{Fun\c c\~oes sem\^anticas}
 \begin{description}
 \item[Express\~oes]\hfill
   \begin{itemize}
@@ -270,14 +222,14 @@ Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
   \end{itemize}
 \item[Sequ\^encias (Fun\c c\~oes)]\hfill
   \begin{itemize}
-  \item $S = (\{0, 1, \ldots\} \to \Sigma
+  \item $S : (\{0, 1, \ldots\} \to \Sigma
     \to \Sigma)$
   \end{itemize}
 \end{description}
+\end{frame}
 
-\subsection{Equa\c c\~oes sem\^anticas}
-\begin{description}
-\item[Express\~oes aritm\'eticas]\hfill
+\begin{frame}[fragile]
+\frametitle{Equa\c c\~oes sem\^anticas: Express\~oes Aritm\'eticas}
   \begin{itemize}
   \item Seja $n$ um n\'umero:\\
     $E[[n]] = \{(\sigma, n)\ |\ \sigma \in \Sigma\}$
@@ -298,7 +250,10 @@ Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
     $E[[a_0 / a_1]] = \{(\sigma, (n_0 / n_1))\ |\ (\sigma, n_0) \in
     E[[n_0]]\ \wedge\ (\sigma, n_1) \in E[[n_1]]\}$
   \end{itemize}
-\item[Comandos]\hfill
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Equa\c c\~oes sem\^anticas: Comandos}
   \begin{itemize}
   \item Atribui\c c\~ao:
     \begin{itemize}
@@ -313,6 +268,5 @@ Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
   \item Composi\c c\~ao:\\
     $C[[c_0;\ c_1]] = C[[c_1]]\ \circ\ C[[c_0]]$
   \end{itemize}
-\end{description}
-
+\end{frame}
 \end{document}
