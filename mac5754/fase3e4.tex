@@ -64,12 +64,12 @@ definidas na tabela \ref{tab1}.
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Palavra}             & \textbf{Significado}                                                         \\ \hline
-program             & Usado para iniciar o programa \\ \hline
-begin               & In\'icio de um bloco \\ \hline
-end                 & Fim de um bloco \\ \hline
-is                  & Espeficicador de in\'icio de bloco \\ \hline
-are                 & Especificador de in\'icio de bloco de declara\c c\~oes \\ \hline
-declarations        & Usado para iniciar as declara\c c\~oes do programa \\ \hline
+%program             & Usado para iniciar o programa \\ \hline
+%begin               & In\'icio de um bloco \\ \hline
+%end                 & Fim de um bloco \\ \hline
+%is                  & Espeficicador de in\'icio de bloco \\ \hline
+%are                 & Especificador de in\'icio de bloco de declara\c c\~oes \\ \hline
+%declarations        & Usado para iniciar as declara\c c\~oes do programa \\ \hline
 int                 & Usado para declarar vari\'aveis do tipo inteiro                     \\ \hline
 real                & Usado para declarar vari\'aveis do tipo real                        \\ \hline
 %sequence           & Calcula o en\'esimo termo de uma sequ\^encia           \\ \hline
@@ -149,12 +149,8 @@ As regras sint\'aticas da nossa linguagem est\~ao definidas e
 comentadas em EBNF abaixo:
 \begin{verbatim}
 (* Definicao da linguagem *)
-
 (* Definicao de um programa *)
-<prog> = `program' <id> `is' `begin' `declararions' `are'
-`begin'<declaracoes> `end';
-<seq_expressoes>
-`end'
+<programa> = {<declaracoes> | <seq_expressoes> };
 
 <seq_expressoes> = <expressao> | <seq_expressoes>;
 
@@ -202,22 +198,13 @@ comentadas em EBNF abaixo:
 Um programa v\'alido na
 nossa linguagem ser\'a algo como:
 \begin{verbatim}
-program X is
-begin
-    declarations are
-    begin
-            real pi;
-            sequence s(n) is
-            begin
-                pi / n ^ 2;
-            end
-    end
-    pi = 3.1415;
-    s(3);
-    series(s, 3);
-    sequence_converges(s, 0.000001);
-    series_converges(s, 0.00001)
-end
+real pi;
+pi = 3.1415;
+sequence s = pi / n ^ 2;
+s(3);
+series(s, 3);
+sequence_converges(s, 0.000001);
+series_converges(s, 0.00001)
 \end{verbatim}
 
 \subsection{S\'imbolos terminais}
@@ -255,6 +242,10 @@ Usaremos sem\^antica denotacional para definirmos a sem\^antica, isto
 \item[Express\~oes]\hfill
   \begin{itemize}
   \item $exp = \{a_0, a_1, a_2, \ldots\}$
+  \end{itemize}
+\item[Blocos]\hfill
+  \begin{itemize}
+  \item $B = \{B_0, B_1, \ldots \}$
   \end{itemize}
 \end{description}
 
