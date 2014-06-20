@@ -1,0 +1,9 @@
+\frametitle{Cont.}
+  \begin{enumerate}
+\setcounter{enumi}{2}
+  \item Elimina\c c\~ao de n\~ao-determinismos: podem sobrar
+      transi\c c\~oes para mais de um estado com o mesmo consumo de
+      \'atomo. Para removermos tais transi\c c\~oes, criamos um estado
+      auxiliar para cada transi\c c\~ao desse tipo. Tais estados devem
+      ter as transi\c c\~oes que ``saem'' dos estados de origem.
+  \end{enumerate}

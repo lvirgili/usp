@@ -1,13 +1,24 @@
 (TeX-add-style-hook "trabalho"
  (lambda ()
+    (LaTeX-add-bibitems
+     "chomsky1956"
+     "parsingbook"
+     "kleene1956"
+     "review1"
+     "review2"
+     "npcomplete"
+     "sr"
+     "heu")
     (LaTeX-add-labels
+     "eq:1"
      "fig:1"
-     "eq:1")
+     "fig:2")
     (TeX-add-symbols
      "linha")
     (TeX-run-style-hooks
      "algorithm"
      "algorithmic"
+     "amsmath"
      "amssymb"
      "amsfonts"
      "graphicx"

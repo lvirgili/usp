@@ -1,0 +1,17 @@
+\frametitle{E a regex virou uma gram\'atica!}
+  \begin{itemize}
+  \item A = \{0\}
+  \item B = (1 1)
+  \item C = (A B)
+  \item D = \{C\}
+  \item E = (1 0)
+  \item F = \{1\}
+  \item G = (0 0)
+  \item H = (F G)
+  \item I = [H]
+  \item J = (E I)
+  \item K = (0 1)
+  \item L = (J K)
+  \item M = (D L)
+  \item N = [M]
+  \end{itemize}

@@ -1,8 +1,12 @@
 \select@language {brazilian}
-\contentsline {section}{\numberline {1}Resumo}{2}
+\contentsline {section}{\numberline {1}Resumo}{1}
 \contentsline {section}{\numberline {2}Introdu\c c\~ao}{2}
-\contentsline {section}{\numberline {3}Gram\'aticas e aut\^omatos}{2}
-\contentsline {section}{\numberline {4}Ferramenta para obter a gram\'atica a partir de um aut\^omato}{2}
-\contentsline {subsection}{\numberline {4.1}Obtendo a express\~ao regular}{2}
-\contentsline {section}{\numberline {5}Conclus\~ao}{3}
-\contentsline {section}{\numberline {6}Bibliografia}{4}
+\contentsline {section}{\numberline {3}Express\~oes regulares, aut\^omatos e gram\'aticas}{2}
+\contentsline {subsection}{\numberline {3.1}De aut\^omatos para express\~oes regulares}{2}
+\contentsline {subsubsection}{\numberline {3.1.1}Obtendo a express\~ao regular - M\'etodo baseado no fecho de Kleene}{2}
+\contentsline {subsubsection}{\numberline {3.1.2}Obtendo a express\~ao regular - \emph {State elimination}}{3}
+\contentsline {section}{\numberline {4}Ferramenta para obter a gram\'atica a partir de um aut\^omato}{4}
+\contentsline {subsection}{\numberline {4.1}Do aut\^omato para a express\~ao regular}{4}
+\contentsline {subsection}{\numberline {4.2}Da express\~ao para a gram\'atica}{5}
+\contentsline {subsection}{\numberline {4.3}A uni\~ao dos dois}{6}
+\contentsline {section}{\numberline {5}Conclus\~ao}{6}
